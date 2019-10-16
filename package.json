@@ -17,7 +17,6 @@
     "eslint": "5.13.0",
     "eslint-config-htmlacademy": "0.5.2",
     "eslint-plugin-react": "7.16.0",
-    "prop-types": "15.7.2",
     "stylelint-config-htmlacademy": "0.1.4",
     "webpack": "4.41.2",
     "webpack-cli": "3.3.9",
@@ -27,6 +26,7 @@
     "node": "10"
   },
   "dependencies": {
+    "prop-types": "15.7.2",
     "react": "16.10.2",
     "react-dom": "16.10.2"
   }
