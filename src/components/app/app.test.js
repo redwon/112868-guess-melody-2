@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import App from './App.jsx';
+import App from './app.jsx';
 
 it(`renders correctly`, () => {
   const tree = renderer
