@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 const ArtistQuestionScreen = ({question, screenIndex, onAnswer}) => {
   const {answers} = question;
 
-  function selectArtistHandler(artist) {
+  const selectArtistHandler = (artist) => {
     onAnswer(artist);
-  }
+  };
 
   return (
     <section className="game game--artist">
@@ -74,7 +74,14 @@ const ArtistQuestionScreen = ({question, screenIndex, onAnswer}) => {
 };
 
 ArtistQuestionScreen.propTypes = {
-  question: PropTypes.object.isRequired,
+  question: PropTypes.shape({
+    type: PropTypes.string,
+    genre: PropTypes.string,
+    answers: PropTypes.arrayOf(PropTypes.shape({
+      src: PropTypes.string,
+      genre: PropTypes.string
+    }))
+  }),
   screenIndex: PropTypes.number.isRequired,
   onAnswer: PropTypes.func
 };

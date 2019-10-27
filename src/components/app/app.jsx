@@ -12,25 +12,25 @@ class App extends PureComponent {
     this.state = {
       question: -1,
     };
+  }
 
-    this.userAnswerHandler = () => {
-      const {questions} = this.props;
+  userAnswerHandler() {
+    const {questions} = this.props;
 
-      this.setState((prevState) => {
-        const nextIndex = prevState.question + 1;
-        const isEnd = nextIndex >= questions.length;
+    this.setState((prevState) => {
+      const nextIndex = prevState.question + 1;
+      const isEnd = nextIndex >= questions.length;
 
-        return {
-          question: !isEnd ? nextIndex : -1,
-        };
-      });
-    };
+      return {
+        question: !isEnd ? nextIndex : -1,
+      };
+    });
   }
 
   render() {
     const {question} = this.state;
 
-    return App.getScreen(question, this.props, this.userAnswerHandler);
+    return App.getScreen(question, this.props, () => this.userAnswerHandler());
   }
 
   static getScreen(question, props, onUserAnswer) {
@@ -76,7 +76,14 @@ class App extends PureComponent {
 App.propTypes = {
   gameTime: PropTypes.number.isRequired,
   errorCount: PropTypes.number.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.object)
+  questions: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string,
+    genre: PropTypes.string,
+    answers: PropTypes.arrayOf(PropTypes.shape({
+      src: PropTypes.string,
+      genre: PropTypes.string
+    }))
+  }))
 };
 
 export default App;

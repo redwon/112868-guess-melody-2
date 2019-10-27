@@ -5,18 +5,18 @@ const GenreQuestionScreen = ({question, screenIndex, onAnswer}) => {
   const {answers, genre} = question;
   let selectedTracks = [];
 
-  function selectTrackHandler(track) {
+  const selectTrackHandler = (track) => {
     if (selectedTracks.includes(track)) {
       selectedTracks = selectedTracks.filter((i) => i !== track);
     } else {
       selectedTracks = [...selectedTracks, track];
     }
-  }
+  };
 
-  function submitHandler() {
+  const submitHandler = () => {
     onAnswer(selectedTracks);
     selectedTracks = [];
-  }
+  };
 
   return (
     <section className="game game--genre">
@@ -88,7 +88,14 @@ const GenreQuestionScreen = ({question, screenIndex, onAnswer}) => {
 };
 
 GenreQuestionScreen.propTypes = {
-  question: PropTypes.object.isRequired,
+  question: PropTypes.shape({
+    type: PropTypes.string,
+    genre: PropTypes.string,
+    answers: PropTypes.arrayOf(PropTypes.shape({
+      src: PropTypes.string,
+      genre: PropTypes.string
+    }))
+  }),
   screenIndex: PropTypes.number.isRequired,
   onAnswer: PropTypes.func,
 };
