@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AudioPlayer from '../audio-player/audio-player';
+
 const ArtistQuestionScreen = ({question, screenIndex, onAnswer}) => {
-  const {answers} = question;
+  const {answers, song} = question;
 
   const selectArtistHandler = (artist) => {
     onAnswer(artist);
@@ -37,10 +39,7 @@ const ArtistQuestionScreen = ({question, screenIndex, onAnswer}) => {
         <h2 className="game__title">Кто исполняет эту песню?</h2>
         <div className="game__track">
           <div className="track">
-            <button className="track__button track__button--play" type="button" />
-            <div className="track__status">
-              <audio />
-            </div>
+            <AudioPlayer src={song.src} />
           </div>
         </div>
 
@@ -76,10 +75,13 @@ const ArtistQuestionScreen = ({question, screenIndex, onAnswer}) => {
 ArtistQuestionScreen.propTypes = {
   question: PropTypes.shape({
     type: PropTypes.string,
-    genre: PropTypes.string,
-    answers: PropTypes.arrayOf(PropTypes.shape({
+    song: PropTypes.shape({
+      artist: PropTypes.string,
       src: PropTypes.string,
-      genre: PropTypes.string
+    }),
+    answers: PropTypes.arrayOf(PropTypes.shape({
+      picture: PropTypes.string,
+      genre: PropTypes.string,
     }))
   }),
   screenIndex: PropTypes.number.isRequired,

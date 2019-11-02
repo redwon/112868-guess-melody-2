@@ -1,21 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AudioPlayer from '../audio-player/audio-player';
+
 const GenreQuestionScreen = ({question, screenIndex, onAnswer}) => {
   const {answers, genre} = question;
   let selectedTracks = [];
+  let activePlayer = null;
 
   const selectTrackHandler = (track) => {
     if (selectedTracks.includes(track)) {
       selectedTracks = selectedTracks.filter((i) => i !== track);
     } else {
-      selectedTracks = [...selectedTracks, track];
+      selectedTracks.push(track);
     }
   };
 
-  const submitHandler = () => {
+  const submitHandler = (evt) => {
+    evt.preventDefault();
     onAnswer(selectedTracks);
     selectedTracks = [];
+  };
+
+  const playHandler = (player) => {
+    if (activePlayer && activePlayer !== player) {
+      activePlayer.pause();
+    }
+    activePlayer = player;
   };
 
   return (
@@ -47,21 +58,15 @@ const GenreQuestionScreen = ({question, screenIndex, onAnswer}) => {
         <h2 className="game__title">Выберите {genre} треки</h2>
         <form
           className="game__tracks"
-          onSubmit={(evt) => {
-            evt.preventDefault();
-            submitHandler();
-          }}
+          onSubmit={submitHandler}
         >
           {answers.map((it, i) => {
             return (
               <div key={`${screenIndex}-answer-${i}`} className="track">
-                <button
-                  className="track__button track__button--play"
-                  type="button"
+                <AudioPlayer
+                  src={it.src}
+                  onPlay={playHandler}
                 />
-                <div className="track__status">
-                  <audio />
-                </div>
                 <div className="game__answer">
                   <input
                     className="game__input visually-hidden"

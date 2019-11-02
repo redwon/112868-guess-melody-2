@@ -79,8 +79,12 @@ App.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
     genre: PropTypes.string,
-    answers: PropTypes.arrayOf(PropTypes.shape({
+    song: PropTypes.shape({
+      artist: PropTypes.string,
       src: PropTypes.string,
+    }),
+    answers: PropTypes.arrayOf(PropTypes.shape({
+      picture: PropTypes.string,
       genre: PropTypes.string
     }))
   }))
