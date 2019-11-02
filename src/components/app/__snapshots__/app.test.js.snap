@@ -2,56 +2,60 @@
 
 exports[`renders correctly 1`] = `
 <section
-  className="welcome"
+  className="game"
 >
-  <div
-    className="welcome__logo"
+  <section
+    className="welcome"
   >
-    <img
-      alt="Угадай мелодию"
-      height="83"
-      src="img/melody-logo.png"
-      width="186"
-    />
-  </div>
-  <button
-    className="welcome__button"
-    onClick={[Function]}
-  >
-    <span
-      className="visually-hidden"
+    <div
+      className="welcome__logo"
     >
-      Начать игру
-    </span>
-  </button>
-  <h2
-    className="welcome__rules-title"
-  >
-    Правила игры
-  </h2>
-  <p
-    className="welcome__text"
-  >
-    Правила просты:
-  </p>
-  <ul
-    className="welcome__rules-list"
-  >
-    <li>
-      За 
-      0
-       минут нужно ответить на все вопросы.
-    </li>
-    <li>
-      Можно допустить 
-      0
-       ошибки.
-    </li>
-  </ul>
-  <p
-    className="welcome__text"
-  >
-    Удачи!
-  </p>
+      <img
+        alt="Угадай мелодию"
+        height="83"
+        src="img/melody-logo.png"
+        width="186"
+      />
+    </div>
+    <button
+      className="welcome__button"
+      onClick={[Function]}
+    >
+      <span
+        className="visually-hidden"
+      >
+        Начать игру
+      </span>
+    </button>
+    <h2
+      className="welcome__rules-title"
+    >
+      Правила игры
+    </h2>
+    <p
+      className="welcome__text"
+    >
+      Правила просты:
+    </p>
+    <ul
+      className="welcome__rules-list"
+    >
+      <li>
+        За 
+        0
+         минут нужно ответить на все вопросы.
+      </li>
+      <li>
+        Можно допустить 
+        0
+         ошибки.
+      </li>
+    </ul>
+    <p
+      className="welcome__text"
+    >
+      Удачи!
+    </p>
+  </section>
 </section>
 `;

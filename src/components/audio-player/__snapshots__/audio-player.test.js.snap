@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+Array [
+  <button
+    className="track__button track__button--play"
+    onClick={[Function]}
+    type="button"
+  />,
+  <div
+    className="track__status"
+  >
+    <audio
+      src="src"
+    />
+  </div>,
+]
+`;

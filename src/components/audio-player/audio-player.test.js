@@ -1,16 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import App from './app';
-
-import questions from '../../mocks/questions';
+import AudioPlayer from './audio-player';
 
 it(`renders correctly`, () => {
   const tree = renderer
-    .create(<App
-      questions={questions}
-      errorCount={0}
-      gameTime={0}
+    .create(<AudioPlayer
+      src="src"
     />)
     .toJSON();
 
