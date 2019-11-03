@@ -2,110 +2,59 @@
 
 exports[`renders correctly 1`] = `
 <section
-  className="game game--artist"
+  className="game__screen"
 >
-  <header
-    className="game__header"
+  <h2
+    className="game__title"
   >
-    <a
-      className="game__back"
-    >
-      <span
-        className="visually-hidden"
-      >
-        Сыграть ещё раз
-      </span>
-      <img
-        alt="Угадай мелодию"
-        className="game__logo"
-        src="img/melody-logo-ginger.png"
-      />
-    </a>
-    <div
-      className="timer__value"
-    >
-      <span
-        className="timer__mins"
-      >
-        05
-      </span>
-      <span
-        className="timer__dots"
-      >
-        :
-      </span>
-      <span
-        className="timer__secs"
-      >
-        00
-      </span>
-    </div>
-    <div
-      className="game__mistakes"
-    >
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-    </div>
-  </header>
-  <section
-    className="game__screen"
+    Кто исполняет эту песню?
+  </h2>
+  <div
+    className="game__track"
   >
-    <h2
-      className="game__title"
-    >
-      Кто исполняет эту песню?
-    </h2>
     <div
-      className="game__track"
+      className="track"
     >
+      <button
+        className="track__button track__button--play"
+        onClick={[Function]}
+        type="button"
+      />
       <div
-        className="track"
+        className="track__status"
       >
-        <button
-          className="track__button track__button--play"
-          type="button"
+        <audio
+          src="song"
         />
-        <div
-          className="track__status"
-        >
-          <audio />
-        </div>
       </div>
     </div>
-    <form
-      className="game__artist"
+  </div>
+  <form
+    className="game__artist"
+  >
+    <div
+      className="artist"
     >
-      <div
-        className="artist"
+      <input
+        className="artist__input visually-hidden"
+        id="answer-0"
+        name="answer"
+        onChange={[Function]}
+        type="radio"
+        value="answer-0"
+      />
+      <label
+        className="artist__name"
+        htmlFor="answer-0"
       >
-        <input
-          className="artist__input visually-hidden"
-          id="answer-0"
-          name="answer"
-          onChange={[Function]}
-          type="radio"
-          value="answer-0"
+        <img
+          alt="artist"
+          className="artist__picture"
+          src="pic"
         />
-        <label
-          className="artist__name"
-          htmlFor="answer-0"
-        >
-          <img
-            alt="artist"
-            className="artist__picture"
-            src="pic"
-          />
-          artist
-        </label>
-      </div>
-    </form>
-  </section>
+        artist
+      </label>
+    </div>
+  </form>
 </section>
 `;
