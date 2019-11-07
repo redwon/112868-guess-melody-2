@@ -7,7 +7,7 @@ it(`renders correctly`, () => {
   const tree = renderer
     .create(<WelcomeScreen
       time={0}
-      errorCount={0}
+      maxMistakes={0}
     />)
     .toJSON();
 

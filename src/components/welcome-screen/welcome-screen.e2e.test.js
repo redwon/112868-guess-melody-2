@@ -10,7 +10,7 @@ it(`Welcome screen is correctly rendered after relaunch`, () => {
   const clickHandler = jest.fn();
   const welcomeScreen = shallow(<WelcomeScreen
     time={0}
-    errorCount={0}
+    maxMistakes={0}
     onStartGame={clickHandler}
   />);
 
