@@ -16,7 +16,6 @@ const init = (gameSettings, gameQuestions) => {
       <Provider store={store}>
         <App
           maxMistakes={gameSettings.maxMistakes}
-          gameTime={gameSettings.gameTime}
           questions={gameQuestions}
         />
       </Provider>,

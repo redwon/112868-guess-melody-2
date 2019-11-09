@@ -1,65 +1,88 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import AudioPlayer from '../audio-player/audio-player';
 
-const GenreQuestionScreen = ({question, screenIndex, onAnswer}) => {
-  const {answers, genre} = question;
-  let selectedTracks = [];
-  let activePlayer = null;
+class GenreQuestionScreen extends PureComponent {
+  constructor(props) {
+    super(props);
 
-  const selectTrackHandler = (track) => {
-    if (selectedTracks.includes(track)) {
-      selectedTracks = selectedTracks.filter((i) => i !== track);
+    this.state = {
+      selectedTracks: [],
+      activePlayer: null
+    };
+  }
+
+  selectTrackHandler(track) {
+    if (this.state.selectedTracks.includes(track)) {
+      this.setState((state) => {
+        const tracks = state.selectedTracks.filter((i) => i !== track);
+        return {selectedTracks: tracks.slice()};
+      });
     } else {
-      selectedTracks.push(track);
+      this.setState((state) => {
+        const tracks = state.selectedTracks.slice();
+        tracks.push(track);
+        return {selectedTracks: tracks};
+      });
     }
-  };
+  }
 
-  const submitHandler = (evt) => {
+  submitHandler(evt) {
     evt.preventDefault();
-    onAnswer(selectedTracks);
-    selectedTracks = [];
-  };
+    this.props.onAnswer(this.state.selectedTracks);
+    this.setState({selectedTracks: []});
+  }
 
-  const playHandler = (player) => {
+  playHandler(player) {
+    const {activePlayer} = this.state;
+
     if (activePlayer && activePlayer !== player) {
       activePlayer.pause();
     }
-    activePlayer = player;
-  };
 
-  return (
-    <section className="game__screen">
-      <h2 className="game__title">Выберите {genre} треки</h2>
-      <form className="game__tracks" onSubmit={submitHandler}>
-        {answers.map((it, i) => {
-          return (
-            <div key={`${screenIndex}-answer-${i}`} className="track">
-              <AudioPlayer src={it.src} onPlay={playHandler} />
-              <div className="game__answer">
-                <input
-                  className="game__input visually-hidden"
-                  type="checkbox"
-                  name="answer"
-                  value={`answer-${i}`}
-                  id={`answer-${i}`}
-                  onChange={() => selectTrackHandler(it)}
-                />
-                <label className="game__check" htmlFor={`answer-${i}`}>
-                  Отметить
-                </label>
+    this.setState({activePlayer: player});
+  }
+
+  render() {
+    const {question, screenIndex} = this.props;
+    const {answers, genre} = question;
+
+    return (
+      <section className="game__screen">
+        <h2 className="game__title">Выберите {genre} треки</h2>
+        <form
+          className="game__tracks"
+          onSubmit={(evt) => this.submitHandler(evt)}
+        >
+          {answers.map((it, i) => {
+            return (
+              <div key={`${screenIndex}-answer-${i}`} className="track">
+                <AudioPlayer src={it.src} onPlay={(player) => this.playHandler(player)} />
+                <div className="game__answer">
+                  <input
+                    className="game__input visually-hidden"
+                    type="checkbox"
+                    name="answer"
+                    value={`answer-${i}`}
+                    id={`answer-${i}`}
+                    onChange={() => this.selectTrackHandler(it)}
+                  />
+                  <label className="game__check" htmlFor={`answer-${i}`}>
+                    Отметить
+                  </label>
+                </div>
               </div>
-            </div>
-          );
-        })}
-        <button className="game__submit button" type="submit">
-          Ответить
-        </button>
-      </form>
-    </section>
-  );
-};
+            );
+          })}
+          <button className="game__submit button" type="submit">
+            Ответить
+          </button>
+        </form>
+      </section>
+    );
+  }
+}
 
 GenreQuestionScreen.propTypes = {
   question: PropTypes.shape({

@@ -12,9 +12,12 @@ it(`renders correctly`, () => {
       mistakes={0}
       questions={questions}
       maxMistakes={0}
-      gameTime={0}
+      time={0}
+      isGamePlaying={false}
       onUserAnswer={jest.fn()}
       onWelcomeScreenClick={jest.fn()}
+      onTimeTick={jest.fn()}
+      onGameReset={jest.fn()}
     />)
     .toJSON();
 

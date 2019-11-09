@@ -9,6 +9,8 @@ import WelcomeScreen from '../welcome-screen/welcome-screen';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
 import MistakesCounter from '../mistakes-counter/mistakes-counter';
+import GameTimer from '../game-timer/game-timer';
+import TimeEndScreen from '../time-end-screen/time-end-screen';
 
 class App extends PureComponent {
   userAnswerHandler(userAnswer, question) {
@@ -27,16 +29,22 @@ class App extends PureComponent {
   }
 
   getScreen(step, question) {
+    const {time, onGameReset} = this.props;
+
     if (step === -1) {
-      const {gameTime, maxMistakes, onWelcomeScreenClick} = this.props;
+      const {maxMistakes, onWelcomeScreenClick} = this.props;
 
       return (
         <WelcomeScreen
-          time={gameTime}
+          time={time}
           maxMistakes={maxMistakes}
           onStartGame={onWelcomeScreenClick}
         />
       );
+    }
+
+    if (time <= 0) {
+      return <TimeEndScreen onClick={onGameReset} />;
     }
 
     switch (question.type) {
@@ -64,6 +72,7 @@ class App extends PureComponent {
 
   render() {
     const {step, mistakes, questions} = this.props;
+    const {isGamePlaying, time, onTimeTick} = this.props;
     const question = questions[step];
     const sectionClass = classNames(`game`, {
       'game--genre': question && question.type === `genre`,
@@ -72,7 +81,7 @@ class App extends PureComponent {
 
     return (
       <section className={sectionClass}>
-        {step !== -1 && (
+        {step !== -1 && time > 0 && (
           <header className="game__header">
             <a className="game__back" href="#">
               <span className="visually-hidden">Сыграть ещё раз</span>
@@ -101,11 +110,11 @@ class App extends PureComponent {
               />
             </svg>
 
-            <div className="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-              <span className="timer__mins">05</span>
-              <span className="timer__dots">:</span>
-              <span className="timer__secs">00</span>
-            </div>
+            <GameTimer
+              status={isGamePlaying}
+              time={time}
+              onTick={onTimeTick}
+            />
 
             <MistakesCounter number={mistakes} />
           </header>
@@ -121,7 +130,8 @@ App.propTypes = {
   step: PropTypes.number.isRequired,
   mistakes: PropTypes.number.isRequired,
   maxMistakes: PropTypes.number.isRequired,
-  gameTime: PropTypes.number.isRequired,
+  time: PropTypes.number.isRequired,
+  isGamePlaying: PropTypes.bool.isRequired,
   questions: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string,
@@ -140,15 +150,30 @@ App.propTypes = {
   ),
   onUserAnswer: PropTypes.func.isRequired,
   onWelcomeScreenClick: PropTypes.func.isRequired,
+  onTimeTick: PropTypes.func.isRequired,
+  onGameReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   step: state.step,
   mistakes: state.mistakes,
+  time: state.time,
+  isGamePlaying: state.isGamePlaying
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onWelcomeScreenClick: () => dispatch(ActionCreator.incrementStep()),
+  onWelcomeScreenClick: () => {
+    dispatch(ActionCreator.incrementStep());
+    dispatch(ActionCreator.toggleGameStatus(true));
+  },
+
+  onTimeTick: (time, interval) => {
+    dispatch(ActionCreator.decrementTime(time, interval));
+  },
+
+  onGameReset: () => {
+    dispatch(ActionCreator.resetGame());
+  },
 
   onUserAnswer: (userAnswer, question, mistakes, maxMistakes) => {
     dispatch(ActionCreator.incrementStep());

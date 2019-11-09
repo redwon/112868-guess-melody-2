@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="timer__value"
+>
+  <span
+    className="timer__mins"
+  >
+    05
+  </span>
+  <span
+    className="timer__dots"
+  >
+    :
+  </span>
+  <span
+    className="timer__secs"
+  >
+    00
+  </span>
+</div>
+`;

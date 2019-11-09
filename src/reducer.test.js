@@ -5,6 +5,13 @@ import {
   reducer,
 } from "./reducer";
 
+const initialState = {
+  step: -1,
+  mistakes: 0,
+  time: 300000,
+  isGamePlaying: false
+};
+
 describe(`Business logic is correct`, () => {
   it(`Artist answer is checked correctly`, () => {
     expect(isArtistAnswerCorrect({
@@ -350,12 +357,19 @@ describe(`Action creators work correctly`, () => {
       type: `RESET`,
     });
   });
-});
 
-const initialState = {
-  step: -1,
-  mistakes: 0
-};
+  it(`Action creator for decreenting time returns correct action`, () => {
+    expect(ActionCreator.decrementTime(3000, 1000)).toEqual({
+      type: `DECREMENT_TIME`,
+      payload: 1000,
+    });
+
+    expect(ActionCreator.decrementTime(0, 1000)).toEqual({
+      type: `TOGGLE_GAME_STATUS`,
+      payload: false,
+    });
+  });
+});
 
 describe(`Reducer works correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
@@ -367,6 +381,8 @@ describe(`Reducer works correctly`, () => {
       type: `INCREMENT_STEP`,
       payload: 1,
     })).toEqual({
+      isGamePlaying: false,
+      time: 300000,
       step: 0,
       mistakes: 0,
     });
@@ -382,6 +398,8 @@ describe(`Reducer works correctly`, () => {
       type: `INCREMENT_MISTAKES`,
       payload: 1,
     })).toEqual({
+      isGamePlaying: false,
+      time: 300000,
       step: -1,
       mistakes: 1,
     });
@@ -399,5 +417,34 @@ describe(`Reducer works correctly`, () => {
     }, {
       type: `RESET`,
     })).toEqual(initialState);
+  });
+
+  it(`Reducer should decrement current time by a given value`, () => {
+    expect(reducer(initialState, {
+      type: `DECREMENT_TIME`,
+      payload: 100000,
+    })).toEqual({
+      isGamePlaying: false,
+      time: 200000,
+      step: -1,
+      mistakes: 0,
+    });
+
+    expect(reducer(initialState, {
+      type: `DECREMENT_TIME`,
+      payload: 0,
+    })).toEqual(initialState);
+  });
+
+  it(`Reducer should correctly change game status`, () => {
+    expect(reducer(initialState, {
+      type: `TOGGLE_GAME_STATUS`,
+      payload: true
+    })).toEqual({
+      isGamePlaying: true,
+      time: 300000,
+      step: -1,
+      mistakes: 0,
+    });
   });
 });

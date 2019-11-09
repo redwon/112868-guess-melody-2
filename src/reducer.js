@@ -1,6 +1,8 @@
 const initialState = {
   step: -1,
-  mistakes: 0
+  mistakes: 0,
+  isGamePlaying: false,
+  time: 300000
 };
 
 const isArtistAnswerCorrect = (userAnswer, question) => {
@@ -48,6 +50,29 @@ const ActionCreator = {
       payload: answerIsCorrect ? 0 : 1,
     };
   },
+
+  decrementTime: (time, interval) => {
+    if (time - interval < 0) {
+      return {
+        type: `TOGGLE_GAME_STATUS`,
+        payload: false
+      };
+    }
+
+    return {
+      type: `DECREMENT_TIME`,
+      payload: interval
+    };
+  },
+
+  toggleGameStatus: (status) => ({
+    type: `TOGGLE_GAME_STATUS`,
+    payload: status
+  }),
+
+  resetGame: () => ({
+    type: `RESET`
+  }),
 };
 
 const reducer = (state = initialState, action) => {
@@ -59,6 +84,14 @@ const reducer = (state = initialState, action) => {
     case `INCREMENT_MISTAKES`:
       return Object.assign({}, state, {
         mistakes: state.mistakes + action.payload
+      });
+    case `DECREMENT_TIME`:
+      return Object.assign({}, state, {
+        time: state.time - action.payload
+      });
+    case `TOGGLE_GAME_STATUS`:
+      return Object.assign({}, state, {
+        isGamePlaying: action.payload
       });
     case `RESET`:
       return Object.assign({}, initialState);
